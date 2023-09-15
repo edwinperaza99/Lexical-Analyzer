@@ -1,0 +1,43 @@
+RAT23F
+Keywords
+- function
+- integer
+- bool
+- real
+- if
+- else 
+- endif 
+- ret 
+- put 
+- get 
+- while 
+- true
+- false
+- symbol for empty
+
+Operators
+= (assignment operator)
+==
+!=
+>
+<
+<=
+=>
++
+-
+*
+/
+no remainder operator
+
+Separators
+{
+}
+(
+)
+,
+;
+might count as a separator
+:
+#
+
+Comments are enclosed in     [*          *]   
