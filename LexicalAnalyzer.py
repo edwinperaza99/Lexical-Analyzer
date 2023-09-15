@@ -1,6 +1,6 @@
 # define separators, operators and reserved words
-separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '[', ']', '#']
-operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=', '&&', '||', '!']
+separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
+operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
 reserved_words = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
 
 # define array to store all the words
