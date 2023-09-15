@@ -38,3 +38,25 @@ try:
 except FileNotFoundError:
     print(f"The file '{file_name}' was not found.")
 
+print("\nJust testing initial setup\n")
+
+for word in words:
+    if word in reserved_words:
+        print(f"{word} is a reserved word")
+    elif word in operators:
+        print(f"{word} is an operator")
+    elif word in separator:
+        print(f"{word} is a separator")
+    # check if it is a real or an integer
+    # elif word[0].isdigit():
+    #     FSSMReal(word)
+    # # check if is in an identifier
+    # elif word[0].isalpha():
+    #     FSMIdentifier(word)
+    else:
+        print(f"{word} is not a valid word for rat23f.")
+
+
+    # function FSMIdentifier(identifier) {}
+
+    # function FSSMReal(real) {}
