@@ -40,7 +40,11 @@ except FileNotFoundError:
 
 print("\nJust testing initial setup\n")
 
-for word in words:
+    # def FSMReal(real):
+
+    # def FSMIdentifier(identifier):
+
+def lexer(word):
     if word in reserved_words:
         print(f"{word} is a reserved word")
     elif word in operators:
@@ -56,7 +60,6 @@ for word in words:
     else:
         print(f"{word} is not a valid word for rat23f.")
 
-
-    # function FSMIdentifier(identifier) {}
-
-    # function FSSMReal(real) {}
+print("token   lexeme")
+for word in words:
+    lexer(word)
