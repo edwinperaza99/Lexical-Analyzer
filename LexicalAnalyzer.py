@@ -23,16 +23,19 @@ try:
             char = file.read(1)
             if not char:
                 break  # End of file, we exit loop
-            if char not in separator:
-                word += char
-            elif char in separator and word != "":
-                words.append(word)
-                word = ""
+            if char in separator:
+                if word:
+                    words.append(word)
+                    word = ""
                 # in case that we dont want to store whitespaces
                 #remove "if" to keep whitespaces
                 if char != ' ' and char != '\n' and char != '\t':
                     words.append(char)
                 # words.append(char)
+            else:
+                word += char
+        if word:
+            words.append(word)
         for word in words:
             print(word)
 except FileNotFoundError:
