@@ -3,7 +3,7 @@ separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
 operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
 reserved_words = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
 
-# define array to store all the words
+# define array to store all the words that have been read
 words = []
 
 # user interface
@@ -23,7 +23,7 @@ try:
             char = file.read(1)
             if not char:
                 break  # End of file, we exit loop
-            if char in separator:
+            if char in separator: # read separator
                 if word:
                     words.append(word)
                     word = ""
@@ -31,7 +31,6 @@ try:
                 #remove "if" to keep whitespaces
                 if char != ' ' and char != '\n' and char != '\t':
                     words.append(char)
-                # words.append(char)
             else:
                 word += char
         if word:
@@ -49,20 +48,21 @@ print("\nJust testing initial setup\n")
 
 def lexer(word):
     if word in reserved_words:
-        print(f"{word} is a reserved word")
+        print(f"keyword\t\t\t{word}")
     elif word in operators:
-        print(f"{word} is an operator")
+        print(f"operator\t\t{word}")
     elif word in separator:
-        print(f"{word} is a separator")
+        print(f"separator\t\t{word}")
     # check if it is a real or an integer
     # elif word[0].isdigit():
-    #     FSSMReal(word)
-    # # check if is in an identifier
+    #     FSMReal(word)
+    # check if is in an identifier
     # elif word[0].isalpha():
     #     FSMIdentifier(word)
     else:
-        print(f"{word} is not a valid word for rat23f.")
+        print(f"invalid\t\t\t{word}")
 
-print("token   lexeme")
+print("token\t\t\tlexeme")
+print("______________________________")
 for word in words:
     lexer(word)
