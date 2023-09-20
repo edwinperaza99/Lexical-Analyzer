@@ -2,6 +2,8 @@
 separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
 operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
 reserved_words = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
+begin_comment = '[*'
+end_comment = '*]'
 
 # define array to store all the words that have been read
 words = []
@@ -62,7 +64,15 @@ def lexer(word):
     else:
         print(f"invalid\t\t\t{word}")
 
+# keep track if we are in a comment 
+comment = False
+
 print("token\t\t\tlexeme")
 print("______________________________")
 for word in words:
-    lexer(word)
+    if word == begin_comment:
+        comment = True
+    elif comment == False:
+        lexer(word)
+    elif word == end_comment:
+        comment = False
