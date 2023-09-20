@@ -80,6 +80,9 @@ def FSMReal(real):
     # if our final state is 2, then we have an integer
     elif current_state == 2:
         print(f"integer\t\t\t{real}")
+    # in case of failure
+    else:
+        print(f"invalid\t\t\t{real}")
 
 
 
@@ -114,8 +117,8 @@ def lexer(word):
     elif word[0].isdigit():
         FSMReal(word)
     # check if is in an identifier
-    # elif word[0].isalpha():
-    #     FSMIdentifier(word)
+    elif word[0].isalpha():
+        FSMIdentifier(word)
     else:
         print(f"invalid\t\t\t{word}")
 

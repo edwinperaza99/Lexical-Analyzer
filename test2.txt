@@ -1,1 +1,8 @@
 while (fahr <= upper) a = 23.00; [* this is a sample *]
+a b a d
+12.2
+743
+.313
+344.23
+131.fvfv
+2
