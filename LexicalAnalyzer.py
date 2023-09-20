@@ -87,7 +87,6 @@ def FSMReal(real):
 
 
 def FSMIdentifier(identifier):
-    print("identifier machine")
     current_state = 1
     if len(identifier) == 1:
         if identifier.isalpha():
@@ -104,7 +103,7 @@ def FSMIdentifier(identifier):
                     current_state = 2
                 elif char.isdigit():
                     current_state = 2
-
+        print(f"identifier still working on it\t\t{identifier}")
 
 def lexer(word):
     if word in reserved_words:
