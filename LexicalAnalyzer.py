@@ -44,7 +44,44 @@ except FileNotFoundError:
 
 print("\nJust testing initial setup\n")
 
-    # def FSMReal(real):
+def FSMReal(real):
+    current_state = 1
+    for char in real:
+        # manage initial state
+        if current_state == 1:
+            if char.isdigit():
+                current_state = 2
+            else:
+                current_state = 5
+        # manage state 2 aka integer before "."
+        elif current_state == 2:
+            if char.isdigit():
+                current_state = 2
+            elif char == '.':
+                current_state = 3
+            else:
+                current_state = 5
+        # manage state 3 aka "."
+        elif current_state == 3:
+            if char.isdigit():
+                current_state = 4
+            else:
+                current_state = 5
+        # manage state 4 aka integer after "."
+        elif current_state == 4:
+            if char.isdigit():
+                current_state = 4
+            else:
+                current_state = 5
+
+    # if our final state is 4, then we have a real
+    if current_state == 4:
+        print(f"real\t\t\t{real}")
+    # if our final state is 2, then we have an integer
+    elif current_state == 2:
+        print(f"integer\t\t\t{real}")
+
+
 
     # def FSMIdentifier(identifier):
 
@@ -56,8 +93,8 @@ def lexer(word):
     elif word in separator:
         print(f"separator\t\t{word}")
     # check if it is a real or an integer
-    # elif word[0].isdigit():
-    #     FSMReal(word)
+    elif word[0].isdigit():
+        FSMReal(word)
     # check if is in an identifier
     # elif word[0].isalpha():
     #     FSMIdentifier(word)
