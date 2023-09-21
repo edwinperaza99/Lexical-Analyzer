@@ -137,7 +137,7 @@ def lexer(word):
 comment = False
 
 print("token\t\t\tlexeme")
-print("______________________________")
+print("_________________________________\n")
 for word in words:
     if word == begin_comment:
         comment = True
