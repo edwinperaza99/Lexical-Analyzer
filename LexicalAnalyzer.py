@@ -44,6 +44,10 @@ except FileNotFoundError:
 
 print("\nJust testing initial setup\n")
 
+# somehow write the printed output of tokens and lexemes onto a new .txt file
+# Idea 1: write the print statements (include params somehow) into a .txt file (ex: output.txt)
+#         if a .txt file already exists, create a new file (ex: output2.txt)
+
 def FSMReal(real):
     current_state = 1
     for char in real:
@@ -88,9 +92,11 @@ def FSMReal(real):
 
 def FSMIdentifier(identifier):
     current_state = 1
+    # when identifier is a single char: L
     if len(identifier) == 1:
         if identifier.isalpha():
             print(f"identifier\t\t{identifier}")
+    # when identifier is a string: L(L|D)*L
     else:
         for char in identifier:
             if current_state == 1:
@@ -103,7 +109,11 @@ def FSMIdentifier(identifier):
                     current_state = 2
                 elif char.isdigit():
                     current_state = 2
-        print(f"identifier still working on it\t\t{identifier}")
+        print(f"identifier\t\t{identifier}")
+        # "hello" is an identifier
+        # "h3llo" is an identifier
+        # "hell0" should be invalid
+        # "a1234a" is an identifier
 
 def lexer(word):
     if word in reserved_words:

@@ -7,3 +7,8 @@ a b a d
 131.fvfv
 2
 113vjhv
+hello = 1;
+h3llo = 2.2;
+Hello = 3.333;
+hell0 = 4.4444;
+a1234a
