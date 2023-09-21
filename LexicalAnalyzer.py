@@ -97,13 +97,25 @@ def FSMIdentifier(identifier):
                 if char.isalpha():
                     current_state = 2
                 else:
-                    current_state = 5
+                    current_state = 4
             elif current_state == 2:
                 if char.isalpha():
                     current_state = 2
                 elif char.isdigit():
+                    current_state = 3
+                else:
+                    current_state = 4
+            elif current_state == 3:
+                if char.isalpha():
                     current_state = 2
-        print(f"identifier still working on it\t\t{identifier}")
+                elif char.isdigit():
+                    current_state = 3
+                else:
+                    current_state = 4
+        if current_state == 2:
+            print(f"identifier\t\t{identifier}")
+        else:
+            print(f"invalid\t\t\t{identifier}")
 
 def lexer(word):
     if word in reserved_words:
