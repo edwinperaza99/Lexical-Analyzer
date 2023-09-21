@@ -92,7 +92,7 @@ def FSMReal(real):
 
 def FSMIdentifier(identifier):
     current_state = 1
-    # when identifier is a single char: L
+    # when identifier is a single letter: L
     if len(identifier) == 1:
         if identifier.isalpha():
             print(f"identifier\t\t{identifier}")
@@ -103,17 +103,25 @@ def FSMIdentifier(identifier):
                 if char.isalpha():
                     current_state = 2
                 else:
-                    current_state = 5
+                    current_state = 4
             elif current_state == 2:
                 if char.isalpha():
                     current_state = 2
                 elif char.isdigit():
+                    current_state = 3
+                else:
+                    current_state = 4
+            elif current_state == 3:
+                if char.isalpha():
                     current_state = 2
-        print(f"identifier\t\t{identifier}")
-        # "hello" is an identifier
-        # "h3llo" is an identifier
-        # "hell0" should be invalid
-        # "a1234a" is an identifier
+                elif char.isdigit():
+                    current_state = 3
+                else:
+                    current_state = 4
+        if current_state == 2:
+            print(f"identifier\t\t{identifier}")
+        else:
+            print(f"invalid\t\t\t{identifier}")
 
 def lexer(word):
     if word in reserved_words:
@@ -135,7 +143,7 @@ def lexer(word):
 comment = False
 
 print("token\t\t\tlexeme")
-print("______________________________")
+print("______________________________\n")
 for word in words:
     if word == begin_comment:
         comment = True
