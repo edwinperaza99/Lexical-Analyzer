@@ -44,110 +44,107 @@ except FileNotFoundError:
 
 print("\nJust testing initial setup\n")
 
-# somehow write the printed output of tokens and lexemes onto a new .txt file
-# Idea 1: write the print statements (include params somehow) into a .txt file (ex: output.txt)
-#         if a .txt file already exists, create a new file (ex: output2.txt)
+with open("output.txt", "w") as text_file:
+    text_file.write("token\t\t\tlexeme")
+    text_file.write("\n______________________________\n")
 
-def FSMReal(real):
-    current_state = 1
-    for char in real:
-        # manage initial state
-        if current_state == 1:
-            if char.isdigit():
-                current_state = 2
-            else:
-                current_state = 5
-        # manage state 2 aka integer before "."
-        elif current_state == 2:
-            if char.isdigit():
-                current_state = 2
-            elif char == '.':
-                current_state = 3
-            else:
-                current_state = 5
-        # manage state 3 aka "."
-        elif current_state == 3:
-            if char.isdigit():
-                current_state = 4
-            else:
-                current_state = 5
-        # manage state 4 aka integer after "."
-        elif current_state == 4:
-            if char.isdigit():
-                current_state = 4
-            else:
-                current_state = 5
-
-    # if our final state is 4, then we have a real
-    if current_state == 4:
-        print(f"real\t\t\t{real}")
-    # if our final state is 2, then we have an integer
-    elif current_state == 2:
-        print(f"integer\t\t\t{real}")
-    # in case of failure
-    else:
-        print(f"invalid\t\t\t{real}")
-
-
-
-def FSMIdentifier(identifier):
-    current_state = 1
-    # when identifier is a single letter: L
-    if len(identifier) == 1:
-        if identifier.isalpha():
-            print(f"identifier\t\t{identifier}")
-    # when identifier is a string: L(L|D)*L
-    else:
-        for char in identifier:
+    def FSMReal(real):
+        current_state = 1
+        for char in real:
+            # manage initial state
             if current_state == 1:
-                if char.isalpha():
+                if char.isdigit():
                     current_state = 2
                 else:
-                    current_state = 4
+                    current_state = 5
+            # manage state 2 aka integer before "."
             elif current_state == 2:
-                if char.isalpha():
+                if char.isdigit():
                     current_state = 2
-                elif char.isdigit():
+                elif char == '.':
                     current_state = 3
                 else:
-                    current_state = 4
+                    current_state = 5
+            # manage state 3 aka "."
             elif current_state == 3:
-                if char.isalpha():
-                    current_state = 2
-                elif char.isdigit():
-                    current_state = 3
-                else:
+                if char.isdigit():
                     current_state = 4
-        if current_state == 2:
-            print(f"identifier\t\t{identifier}")
+                else:
+                    current_state = 5
+            # manage state 4 aka integer after "."
+            elif current_state == 4:
+                if char.isdigit():
+                    current_state = 4
+                else:
+                    current_state = 5
+
+        # if our final state is 4, then we have a real
+        if current_state == 4:
+            text_file.write(f"real\t\t\t{real}\n")
+        # if our final state is 2, then we have an integer
+        elif current_state == 2:
+            text_file.write(f"integer\t\t\t{real}\n")
+        # in case of failure
         else:
-            print(f"invalid\t\t\t{identifier}")
+            text_file.write(f"invalid\t\t\t{real}\n")
 
-def lexer(word):
-    if word in reserved_words:
-        print(f"keyword\t\t\t{word}")
-    elif word in operators:
-        print(f"operator\t\t{word}")
-    elif word in separator:
-        print(f"separator\t\t{word}")
-    # check if it is a real or an integer
-    elif word[0].isdigit():
-        FSMReal(word)
-    # check if is in an identifier
-    elif word[0].isalpha():
-        FSMIdentifier(word)
-    else:
-        print(f"invalid\t\t\t{word}")
+    def FSMIdentifier(identifier):
+        current_state = 1
+        # when identifier is a single letter: L
+        if len(identifier) == 1:
+            if identifier.isalpha():
+                text_file.write(f"identifier\t\t{identifier}\n")
+        # when identifier is a string: L(L|D)*L
+        else:
+            for char in identifier:
+                if current_state == 1:
+                    if char.isalpha():
+                        current_state = 2
+                    else:
+                        current_state = 4
+                elif current_state == 2:
+                    if char.isalpha():
+                        current_state = 2
+                    elif char.isdigit():
+                        current_state = 3
+                    else:
+                        current_state = 4
+                elif current_state == 3:
+                    if char.isalpha():
+                        current_state = 2
+                    elif char.isdigit():
+                        current_state = 3
+                    else:
+                        current_state = 4
+            if current_state == 2:
+                text_file.write(f"identifier\t\t{identifier}\n")
+            else:
+                text_file.write(f"invalid\t\t\t{identifier}\n")
 
-# keep track if we are in a comment 
-comment = False
+    def lexer(word):
+        if word in reserved_words:
+            text_file.write(f"keyword\t\t\t{word}\n")
+        elif word in operators:
+            text_file.write(f"operator\t\t{word}\n")
+        elif word in separator:
+            text_file.write(f"separator\t\t{word}\n")
+        # check if it is a real or an integer
+        elif word[0].isdigit():
+            FSMReal(word)
+        # check if is in an identifier
+        elif word[0].isalpha():
+            FSMIdentifier(word)
+        else:
+            text_file.write(f"invalid\t\t\t{word}\n")
 
-print("token\t\t\tlexeme")
-print("______________________________\n")
-for word in words:
-    if word == begin_comment:
-        comment = True
-    elif comment == False:
-        lexer(word)
-    elif word == end_comment:
-        comment = False
+    # keep track if we are in a comment 
+    comment = False
+    for word in words:
+        if word == begin_comment:
+            comment = True
+        elif comment == False:
+            lexer(word)
+        elif word == end_comment:
+            comment = False
+        
+text_file.close()
