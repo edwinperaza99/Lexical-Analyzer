@@ -162,7 +162,7 @@ def file_name_generator(file_name):
 def write_tokens(tokens):
     try:
         output_file = file_name_generator(file_name)
-        with open(file_name_generator(output_file), 'w') as file:
+        with open(output_file, 'w') as file:
             print(f"\nWriting tokens to file '{output_file}'...\n")
             file.write("token\t\t\tlexeme\n")
             file.write("_________________________________\n")
