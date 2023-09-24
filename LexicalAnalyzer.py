@@ -8,6 +8,9 @@ end_comment = '*]'
 # define array to store all the words that have been read
 words = []
 
+# define dictionary to store tokens
+tokens = []
+
 # user interface
 print("\nWelcome to our Lexical Analyzer")
 file_name = input("Please enter the name of the file you want to analyze: ")
@@ -37,9 +40,9 @@ try:
 except FileNotFoundError:
     print(f"The file '{file_name}' was not found.")
 
-def FSMReal(real):
+def FSMReal(lexeme):
     current_state = 1
-    for char in real:
+    for char in lexeme:
         # manage initial state
         if current_state == 1:
             if char.isdigit():
@@ -69,21 +72,21 @@ def FSMReal(real):
 
     # if our final state is 4, then we have a real
     if current_state == 4:
-        print(f"real\t\t\t{real}")
+        # store token and lexeme
+        tokens.append({'token': 'real', 'lexeme': lexeme})
     # if our final state is 2, then we have an integer
     elif current_state == 2:
-        print(f"integer\t\t\t{real}")
+        tokens.append({'token': 'integer', 'lexeme': lexeme})
     # in case of failure
     else:
-        print(f"invalid\t\t\t{real}")
-
+        tokens.append({'token': 'illegal', 'lexeme': lexeme})
 
 
 def FSMIdentifier(identifier):
     current_state = 1
     if len(identifier) == 1:
         if identifier.isalpha():
-            print(f"identifier\t\t{identifier}")
+            tokens.append({'token': 'identifier', 'lexeme': identifier})
     else:
         for char in identifier:
             if current_state == 1:
@@ -106,17 +109,17 @@ def FSMIdentifier(identifier):
                 else:
                     current_state = 4
         if current_state == 2:
-            print(f"identifier\t\t{identifier}")
+            tokens.append({'token': 'identifier', 'lexeme': identifier})
         else:
-            print(f"invalid\t\t\t{identifier}")
+            tokens.append({'token': 'illegal', 'lexeme': identifier})
 
 def lexer(word):
     if word in reserved_words:
-        print(f"keyword\t\t\t{word}")
+        tokens.append({'token': 'keyword', 'lexeme': word})
     elif word in operators:
-        print(f"operator\t\t{word}")
+        tokens.append({'token': 'operator', 'lexeme': word})
     elif word in separator:
-        print(f"separator\t\t{word}")
+        tokens.append({'token': 'separator', 'lexeme': word})
     # check if it is a real or an integer
     elif word[0].isdigit():
         FSMReal(word)
@@ -124,17 +127,32 @@ def lexer(word):
     elif word[0].isalpha():
         FSMIdentifier(word)
     else:
-        print(f"invalid\t\t\t{word}")
+        tokens.append({'token': 'illegal', 'lexeme': word})
 
-# keep track if we are in a comment 
-comment = False
+# this functions removes comments from the code
+def commentRemoval(words):
+    # keep track if we are in a comment 
+    comment = False
 
-print("token\t\t\tlexeme")
-print("_________________________________\n")
-for word in words:
-    if word == begin_comment:
-        comment = True
-    elif comment == False:
-        lexer(word)
-    elif word == end_comment:
-        comment = False
+    for word in words:
+        if word == begin_comment:
+            comment = True
+        elif comment == False:
+            lexer(word)
+        elif word == end_comment:
+            comment = False
+
+# this functions prints all the tokens to the main program console
+def print_tokens(tokens):
+    print("token\t\t\tlexeme")
+    print("_________________________________\n")
+    for token in tokens:
+        if token['token'] == 'illegal' or token['token'] == 'keyword' or token['token'] == 'integer' or token['token'] == 'real':
+            print(f"{token['token']}\t\t\t{token['lexeme']}")
+        else:
+            print(f"{token['token']}\t\t{token['lexeme']}")
+
+
+# call functions
+commentRemoval(words)
+print_tokens(tokens)
