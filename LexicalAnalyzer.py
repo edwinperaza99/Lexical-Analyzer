@@ -12,7 +12,7 @@ words = []
 tokens = []
 
 # user interface
-print("\nWelcome to our Lexical Analyzer")
+print("\nWelcome to our Lexical Analyzer!")
 file_name = input("Please enter the name of the file you want to analyze: ")
 print(f"\nAnalyzing file '{file_name}'...\n")
 
@@ -161,7 +161,9 @@ def file_name_generator(file_name):
 # this function writes all the tokens and lexemes to a file
 def write_tokens(tokens):
     try:
-        with open(file_name_generator(file_name), 'w') as file:
+        output_file = file_name_generator(file_name)
+        with open(file_name_generator(output_file), 'w') as file:
+            print(f"\nWriting tokens to file '{output_file}'...\n")
             file.write("token\t\t\tlexeme\n")
             file.write("_________________________________\n")
             for token in tokens:
@@ -169,14 +171,15 @@ def write_tokens(tokens):
                     file.write(f"{token['token']}\t\t\t{token['lexeme']}\n")
                 else:
                     file.write(f"{token['token']}\t\t{token['lexeme']}\n")
+            print(f"Tokens written to file '{output_file}' successfully!\n")
     except FileNotFoundError:
-        print(f"The file '{file_name}' was not found.")
+        print(f"The file '{output_file}' was not found.")
     except PermissionError:
-        print(f"You do not have permission to create the file: '{file_name}'.")
+        print(f"You do not have permission to create the file: '{output_file}'.")
     except OSError as systemError:  
-        print(f"An error occurred while creating the file: '{file_name}'. The error was: {systemError}")
+        print(f"An error occurred while creating the file: '{output_file}'. The error was: {systemError}")
     except Exception as errorMessage:
-        print(f"An unexpected error occurred while creating the file: '{file_name}'. The error was: {str(errorMessage)}")
+        print(f"An unexpected error occurred while creating the file: '{output_file}'. The error was: {str(errorMessage)}")
 
 # call functions
 commentRemoval(words)
