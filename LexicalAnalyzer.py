@@ -39,6 +39,12 @@ try:
             words.append(word)
 except FileNotFoundError:
     print(f"The file '{file_name}' was not found.")
+except PermissionError:
+    print(f"You do not have permission to read the file: '{file_name}'.")
+except OSError as systemError:  
+    print(f"An error occurred while reading the file: '{file_name}'. The error was: {systemError}")
+except Exception as errorMessage:
+    print(f"An unexpected error occurred while reading the file: '{file_name}'. The error was: {str(errorMessage)}")
 
 # finite state machine for real and integer
 def FSMReal(lexeme):
