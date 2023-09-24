@@ -40,6 +40,7 @@ try:
 except FileNotFoundError:
     print(f"The file '{file_name}' was not found.")
 
+# finite state machine for real and integer
 def FSMReal(lexeme):
     current_state = 1
     for char in lexeme:
@@ -81,7 +82,7 @@ def FSMReal(lexeme):
     else:
         tokens.append({'token': 'illegal', 'lexeme': lexeme})
 
-
+# finite state machine for identifiers
 def FSMIdentifier(identifier):
     current_state = 1
     if len(identifier) == 1:
@@ -113,6 +114,7 @@ def FSMIdentifier(identifier):
         else:
             tokens.append({'token': 'illegal', 'lexeme': identifier})
 
+# this is the main lexer function, it is in charge of identifying the tokens
 def lexer(word):
     if word in reserved_words:
         tokens.append({'token': 'keyword', 'lexeme': word})
@@ -152,7 +154,31 @@ def print_tokens(tokens):
         else:
             print(f"{token['token']}\t\t{token['lexeme']}")
 
+# this function generates a file name for the tokens file
+def file_name_generator(file_name):
+    return 'output_' + file_name
+
+# this function writes all the tokens and lexemes to a file
+def write_tokens(tokens):
+    try:
+        with open(file_name_generator(file_name), 'w') as file:
+            file.write("token\t\t\tlexeme\n")
+            file.write("_________________________________\n")
+            for token in tokens:
+                if token['token'] == 'illegal' or token['token'] == 'keyword' or token['token'] == 'integer' or token['token'] == 'real':
+                    file.write(f"{token['token']}\t\t\t{token['lexeme']}\n")
+                else:
+                    file.write(f"{token['token']}\t\t{token['lexeme']}\n")
+    except FileNotFoundError:
+        print(f"The file '{file_name}' was not found.")
+    except PermissionError:
+        print(f"You do not have permission to create the file: '{file_name}'.")
+    except OSError as systemError:  
+        print(f"An error occurred while creating the file: '{file_name}'. The error was: {systemError}")
+    except Exception as errorMessage:
+        print(f"An unexpected error occurred while creating the file: '{file_name}'. The error was: {str(errorMessage)}")
 
 # call functions
 commentRemoval(words)
 print_tokens(tokens)
+write_tokens(tokens)
