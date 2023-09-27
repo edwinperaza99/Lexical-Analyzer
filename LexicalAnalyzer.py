@@ -1,7 +1,7 @@
 # define separators, operators and reserved words
 separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
 operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
-reserved_words = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
+keyword = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
 begin_comment = '[*'
 end_comment = '*]'
 
@@ -180,7 +180,7 @@ def FSMIdentifier(identifier):
 
 # this is the main lexer function, it is in charge of identifying the tokens
 def lexer(word):
-    if word in reserved_words:
+    if word in keyword:
         tokens.append({'token': 'keyword', 'lexeme': word})
     elif word in operators:
         tokens.append({'token': 'operator', 'lexeme': word})
