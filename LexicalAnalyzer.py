@@ -17,34 +17,79 @@ file_name = input("Please enter the name of the file you want to analyze: ")
 print(f"\nAnalyzing file '{file_name}'...\n")
 
 # Code to read the file and store its words in an array
-try:
-    with open(file_name, 'r') as file:
-        # here we store the current word read
-        word = ""
-        while True:
-            char = file.read(1)
-            if not char:
-                break  # End of file, we exit loop
-            if char in separator: # read separator
-                if word:
-                    words.append(word)
-                    word = ""
-                # in case that we dont want to store whitespaces
-                #remove "if" to keep whitespaces
-                if char != ' ' and char != '\n' and char != '\t':
-                    words.append(char)
-            else:
-                word += char
-        if word:
-            words.append(word)
-except FileNotFoundError:
-    print(f"The file '{file_name}' was not found.")
-except PermissionError:
-    print(f"You do not have permission to read the file: '{file_name}'.")
-except OSError as systemError:  
-    print(f"An error occurred while reading the file: '{file_name}'. The error was: {systemError}")
-except Exception as errorMessage:
-    print(f"An unexpected error occurred while reading the file: '{file_name}'. The error was: {str(errorMessage)}")
+def read_file(file_name):
+    try:
+        with open(file_name, 'r') as file:
+            # here we store the current word read
+            word = ""
+            while True:
+                char = file.read(1)
+                if not char:
+                    break  # End of file, we exit loop
+                # check for comments
+                if char == '[':
+                    if word:
+                        words.append(word)
+                        word = ""
+                    # check for correct opening comment
+                    next_char = file.read(1)
+                    if char + next_char == begin_comment:
+                        words.append(char + next_char)
+                    else:
+                        # store single operator 
+                        words.append(char)
+                        # check if next character is a separator
+                        if next_char in separator:
+                            if next_char != ' ' and char != '\n' and char != '\t':
+                                words.append(next_char)
+                        else:    
+                            word += next_char
+
+                elif char in operators: # read operator
+                    if word:
+                        words.append(word)
+                        word = ""
+                    # check for double character operators
+                    next_char = file.read(1)
+                    # check for closing comment
+                    if char + next_char == end_comment:
+                        words.append(char + next_char)
+
+                    elif char + next_char in operators:
+                        words.append(char + next_char)
+                    else:
+                        # store single operator 
+                        words.append(char)
+                        # check if next character is a separator
+                        if next_char in separator:
+                            if next_char != ' ' and char != '\n' and char != '\t':
+                                words.append(next_char)
+                        # remove next if in case that we want to make this illegal
+                        elif next_char in operators:
+                            words.append(next_char)
+                        else:    
+                            word = next_char
+
+                elif char in separator: # read separator
+                    if word:
+                        words.append(word)
+                        word = ""
+                    # in case that we dont want to store whitespaces
+                    #remove "if" to keep whitespaces
+                    if char != ' ' and char != '\n' and char != '\t':
+                        words.append(char)
+                else:
+                    word += char
+            if word:
+                words.append(word)
+    except FileNotFoundError:
+        print(f"The file '{file_name}' was not found.")
+    except PermissionError:
+        print(f"You do not have permission to read the file: '{file_name}'.")
+    except OSError as systemError:  
+        print(f"An error occurred while reading the file: '{file_name}'. The error was: {systemError}")
+    except Exception as errorMessage:
+        print(f"An unexpected error occurred while reading the file: '{file_name}'. The error was: {str(errorMessage)}")
 
 # finite state machine for real and integer
 def FSMReal(lexeme):
@@ -188,6 +233,7 @@ def write_tokens(tokens):
         print(f"An unexpected error occurred while creating the file: '{output_file}'. The error was: {str(errorMessage)}")
 
 # call functions
+read_file(file_name)
 commentRemoval(words)
 print_tokens(tokens)
 write_tokens(tokens)

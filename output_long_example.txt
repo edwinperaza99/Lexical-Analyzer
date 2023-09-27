@@ -36,7 +36,8 @@ separator		}
 keyword			while
 separator		(
 identifier		tempNum
-operator		!=
+illegal			!
+operator		=
 integer			0
 separator		)
 separator		{
