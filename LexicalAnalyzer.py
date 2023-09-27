@@ -13,7 +13,20 @@ tokens = []
 
 # user interface
 print("\nWelcome to our Lexical Analyzer!")
-file_name = input("Please enter the name of the file you want to analyze: ")
+# ask for file name until it is valid
+while True:
+    try:
+        file_name = input("Please enter the name of the file you want to analyze: ")
+        with open(file_name, 'r') as file:
+            # The file exists, so break out of the loop
+            break
+    except FileNotFoundError:
+        print(f"The file '{file_name}' was not found. Please enter a valid file name.")
+    except PermissionError:
+        print(f"You do not have permission to read the file: '{file_name}'. Please enter a different file name.")
+    except Exception as errorMessage:
+        print(f"An unexpected error occurred: {str(errorMessage)} Please enter a different file name.")
+
 print(f"\nAnalyzing file '{file_name}'...\n")
 
 # Code to read the file and store its words in an array
