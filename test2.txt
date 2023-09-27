@@ -1,4 +1,4 @@
-while (fahr <= upper) a = 23.00; [* this is a sample *]
+while (fahr <= upper) a = 23.00; [* this is a sample hehe *]
 a b a d
 12.2
 743
@@ -8,3 +8,14 @@ testing output
 131.fvfv
 2
 113vjhv
+2+3
+5#7
+3*9
+4+=4
+4-=4
+4==4
+4 == 4
+===
+4<=3
+5 >== 6
+5><>5
