@@ -1,3 +1,6 @@
+# only used for last message 
+import time
+
 # define separators, operators and reserved words
 separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
 operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
@@ -10,24 +13,6 @@ words = []
 
 # define dictionary to store tokens
 tokens = []
-
-# user interface
-print("\nWelcome to our Lexical Analyzer!")
-# ask for file name until it is valid
-while True:
-    try:
-        file_name = input("Please enter the name of the file you want to analyze: ")
-        with open(file_name, 'r') as file:
-            # The file exists, so break out of the loop
-            break
-    except FileNotFoundError:
-        print(f"The file '{file_name}' was not found. Please enter a valid file name.")
-    except PermissionError:
-        print(f"You do not have permission to read the file: '{file_name}'. Please enter a different file name.")
-    except Exception as errorMessage:
-        print(f"An unexpected error occurred: {str(errorMessage)} Please enter a different file name.")
-
-print(f"\nAnalyzing file '{file_name}'...\n")
 
 # Code to read the file and store its words in an array
 def read_file(file_name):
@@ -199,7 +184,7 @@ def lexer(word):
 def commentRemoval(words):
     # keep track if we are in a comment 
     comment = False
-
+    # iterate through lexemes 
     for word in words:
         if word == begin_comment:
             comment = True
@@ -223,7 +208,7 @@ def file_name_generator(file_name):
     return 'output_' + file_name
 
 # this function writes all the tokens and lexemes to a file
-def write_tokens(tokens):
+def write_tokens(tokens, file_name):
     try:
         output_file = file_name_generator(file_name)
         with open(output_file, 'w') as file:
@@ -245,8 +230,47 @@ def write_tokens(tokens):
     except Exception as errorMessage:
         print(f"An unexpected error occurred while creating the file: '{output_file}'. The error was: {str(errorMessage)}")
 
-# call functions
-read_file(file_name)
-commentRemoval(words)
-print_tokens(tokens)
-write_tokens(tokens)
+# Function to analyze a file
+def analyze_file():
+    while True:
+        try:
+            file_name = input("Please enter the name of the file you want to analyze (or 'q' to quit): ")
+            if file_name == 'q':
+                print("\nThank you for using our Lexical Analyzer!\n")
+                print("Exiting program...")
+                time.sleep(2)
+                exit(0) # Exit the loop and quit the program
+            with open(file_name, 'r') as file:
+                # The file exists, so continue with analysis
+                print(f"\nAnalyzing file '{file_name}'...\n")
+                words.clear()  # Clear the list of words from previous analyses
+                tokens.clear()  # Clear the list of tokens from previous analyses
+                read_file(file_name)
+                commentRemoval(words)
+                print_tokens(tokens)
+                write_tokens(tokens, file_name)
+                break
+        except FileNotFoundError:
+            print(f"The file '{file_name}' was not found. Please enter a valid file name.")
+        except PermissionError:
+            print(f"You do not have permission to read the file: '{file_name}'. Please enter a different file name.")
+        except Exception as errorMessage:
+            print(f"An unexpected error occurred: {str(errorMessage)} Please enter a different file name.")
+
+# User interface
+print("\nWelcome to our Lexical Analyzer!")
+
+# call main function to analyze a file 
+analyze_file()
+# Main loop
+while True:
+    another_analysis = input("Do you want to analyze another file? (yes/no): ").strip().lower()
+    if another_analysis == 'no' or another_analysis == 'n':
+        print("\nThank you for using our Lexical Analyzer!\n")
+        print("Exiting program...")
+        time.sleep(2)
+        exit(0)  # Exit the program if the user does not want to analyze another file
+    if another_analysis != 'yes' or another_analysis != 'y':
+        analyze_file()
+    else:
+        print("Invalid input. Please enter 'yes' or 'no'.")
