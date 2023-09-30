@@ -36,8 +36,8 @@ Separators
 )
 ,
 ;
+#
 might count as a separator
 :
-#
 
 Comments are enclosed in     [*          *]   

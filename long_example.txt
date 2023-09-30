@@ -8,7 +8,7 @@ function isPalindrom (inputNum int){
 	[* Checks to see if the number is negative, automatically not a palindrome *]
 	if(inputNum < 0)
 	{
-		return 0;
+		ret 0;
 	}
 
 	[* Number manipulation happens here. Slice it down by 10, add it to the new num, then multiply the remainder by 10 *]
@@ -22,11 +22,12 @@ function isPalindrom (inputNum int){
 	[* If the test number is equal to the input number, it's a palindrome! *]
 	if(testNum == inputNum)
 	{
-		return 1;
+		ret 1;
 	}
 	else
 	{
-		return 0;
+		ret 0;
 	}
+    endif
 
 }
