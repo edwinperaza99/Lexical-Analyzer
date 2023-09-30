@@ -135,25 +135,33 @@ def FSMIdentifier(identifier):
             tokens.append({'token': 'identifier', 'lexeme': identifier})
     else:
         for char in identifier:
+            # check if the first character is a letter
             if current_state == 1:
                 if char.isalpha():
                     current_state = 2
                 else:
                     current_state = 4
+            # now we can accept digits and letters
             elif current_state == 2:
                 if char.isalpha():
+                    # we stay in the same state if letter
                     current_state = 2
                 elif char.isdigit():
+                    # we move to state 3 if digit
                     current_state = 3
                 else:
                     current_state = 4
+            # still accepting digits and letters
             elif current_state == 3:
                 if char.isalpha():
+                    # we go back to state 2 if letter
                     current_state = 2
                 elif char.isdigit():
+                    # we stay in the same state if digit
                     current_state = 3
                 else:
                     current_state = 4
+        # final state must be 2 because we need to end in a letter
         if current_state == 2:
             tokens.append({'token': 'identifier', 'lexeme': identifier})
         else:
