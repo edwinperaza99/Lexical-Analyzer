@@ -3,7 +3,7 @@ import time
 import sys
 
 # define separators, operators and reserved words
-separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#', ':']
+separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#']
 operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
 keyword = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
 begin_comment = '[*'
