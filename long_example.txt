@@ -10,6 +10,7 @@ function isPalindrom (inputNum integer){
 	{
 		ret false;
 	}
+    endif
 
 	[* Number manipulation happens here. Slice it down by 10, add it to the new num, then multiply the remainder by 10 *]
 	while(tempNum != 0)
