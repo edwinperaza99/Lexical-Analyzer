@@ -1,6 +1,6 @@
 [* Function to see if a number is a palindrome using number manipulation *]
 [* Function input is an integer, function output is a boolean 1 or 0 *]
-function isPalindrom (inputNum int){
+function isPalindrom (inputNum integer){
 	integer inRemainder = 0;
 	real testNum = 0.0;
 	real tempNum = 0.0;
@@ -8,7 +8,7 @@ function isPalindrom (inputNum int){
 	[* Checks to see if the number is negative, automatically not a palindrome *]
 	if(inputNum < 0)
 	{
-		ret 0;
+		ret false;
 	}
 
 	[* Number manipulation happens here. Slice it down by 10, add it to the new num, then multiply the remainder by 10 *]
@@ -22,12 +22,11 @@ function isPalindrom (inputNum int){
 	[* If the test number is equal to the input number, it's a palindrome! *]
 	if(testNum == inputNum)
 	{
-		ret 1;
+		ret true;
 	}
 	else
 	{
-		ret 0;
+		ret false;
 	}
     endif
-
 }
