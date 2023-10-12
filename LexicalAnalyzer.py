@@ -4,7 +4,7 @@ import sys
 
 # define separators, operators and reserved words
 separator = [' ', '\n', '\t', ',', ';', '(', ')', '{', '}', '#']
-operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '>=', '==', '!=']
+operators = ['+', '-', '*', '/', '=', '<', '>', '<=', '=>', '==', '!=', '!']
 keyword = ['if', 'else', 'endif' ,'while', 'function', 'integer', 'bool', 'real', 'ret', 'put', 'get', 'true', 'false']
 begin_comment = '[*'
 end_comment = '*]'
@@ -178,7 +178,11 @@ def lexer(word):
     if word in keyword:
         tokens.append({'token': 'keyword', 'lexeme': word})
     elif word in operators:
-        tokens.append({'token': 'operator', 'lexeme': word})
+        # check that word is not the only illegal operator "!", only in list for "!="
+        if word == '!':
+            tokens.append({'token': 'illegal', 'lexeme': word})
+        else:
+            tokens.append({'token': 'operator', 'lexeme': word})
     elif word in separator:
         tokens.append({'token': 'separator', 'lexeme': word})
     # check if it is a real or an integer

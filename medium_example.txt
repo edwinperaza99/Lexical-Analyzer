@@ -17,6 +17,6 @@ function SubNums(numOne integer, numTwo integer)
 function ConvertToCelcius(tempInF real)
 {
 	real tempCel;
-	tempCel = tempInF * (5/9) + 32;
+	tempCel = tempInF * (5/9) + 32 != 0 !;
 	ret tempCel;
 }

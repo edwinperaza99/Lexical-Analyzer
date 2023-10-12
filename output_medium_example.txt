@@ -66,6 +66,9 @@ integer			9
 separator		)
 operator		+
 integer			32
+operator		!=
+integer			0
+illegal			!
 separator		;
 keyword			ret
 identifier		tempCel
